@@ -8,6 +8,10 @@ use Noodlehaus\Config;
 
 use Triangon\User\User;
 use Triangon\Helpers\Hash;
+use Triangon\Validation\Validator;
+use Triangon\Mail\Mailer;
+
+use Triangon\Middleware\BeforeMiddleware;
 
 session_cache_limiter(false);
 session_start();
@@ -24,13 +28,16 @@ $app = new Slim([
 	'templates.path' => INC_ROOT . '/app/views'
 ]);
 
+$app->add(new BeforeMiddleware);
+
 $app->configureMode($app->config('mode'),function() use ($app){
 	$app->config = Config::load(INC_ROOT . "/app/config/{$app->mode}.php");
 });
 
-
 require 'database.php';
 require 'routes.php';
+
+$app->auth = false;
 
 $app->container->set('user', function(){
 	return new User;
@@ -38,6 +45,25 @@ $app->container->set('user', function(){
 
 $app->container->singleton('hash', function() use ($app){
 	return new Hash($app->config);
+});
+
+$app->container->singleton('validation', function() use ($app) {
+	return new Validator($app->user);
+});
+
+$app->container->singleton('mail', function() use ($app){
+	$mailer = new PHPMailer;
+
+	$mailer->Host = $app->config->get('mail.host');
+	$mailer->SMTPAuth = $app->config->get('mail.smtp_auth');
+	$mailer->SMTPSecure = $app->config->get('mail.smto_secure');
+	$mailer->Port = $app->config->get('mail.port');
+	$mailer->Username =$app->config->get('mail.username');
+	$mailer->Password = $app->config->get('mail.password');
+
+	$mailer->isHTML($app->config->get('mail.html'));
+
+	return new Mailer($app->view, $mailer);
 });
 
 
@@ -55,9 +81,3 @@ $view->parserExtensions =[
 	new TwigExtension
 ];
 
-
-$password="1q2w3e";
-$hash = '$2y$10$m2jMTVxCcd.IwS.FkBMCje6.K728Daej4GjE49XpaUXD4/x8X7MmK';
-echo $app->hash->password('1q2w3ed');
-
-var_dump($app->hash->passwordCheck($password, $hash));
