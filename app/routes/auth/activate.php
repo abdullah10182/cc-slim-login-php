@@ -1,13 +1,11 @@
 <?php 
 
-$app->get('/activate', function() use($app){
-	
+$app->get('/activate', $guest(), function() use($app){
+
 	$request = $app->request;
 
 	$email = $request->get('email');
 	$identifier = $request->get('identifier');
-
-
 
 	$hashedIdentifier = $app->hash->hash($identifier);
 
@@ -24,6 +22,5 @@ $app->get('/activate', function() use($app){
 		$app->flash('global', 'Your account has been activated');
 		$app->response->redirect($app->urlFor('home'));
 	}
-
 
 })->name('activate');
