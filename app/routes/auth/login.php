@@ -19,8 +19,10 @@ $app->post('/login' , function() use ($app){
 
 	if ($v->passes()) {
 		$user = $app->user
-			    	->where('username' , $identifier)
-			    	->orWhere('email' , $identifier)
+			    	->where('active', true)
+			    	->where(function($query) use ($identifier) {
+			    		return $query->where('email', $identifier)->orWhere('username', $identifier);
+			    	})
 			    	->first();
 
 		if ($user && $app->hash->passwordCheck($password, $user->password)) {	
