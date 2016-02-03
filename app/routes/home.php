@@ -5,9 +5,7 @@ $app->get('/', function() use($app){
 })->name('home');
 
 
-
-
 /*$app->get('/flash', function() use ($app){
-	$app->flash('global', 'You have registered');
+	$app->flash('warning', array('You have registered2'));
 	$app->response->redirect($app->urlFor('home'));
 });*/
