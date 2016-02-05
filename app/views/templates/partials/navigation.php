@@ -1,5 +1,6 @@
 {% if auth %}
 	<h2>logged in as {{auth.getFullNameOrUsername}}.	</h2>
+	<img src="{{ auth.getAvatarUrl({size: 200}) }}" alt="Your avatar">
 {% endif %}
 <ul>
 	<li> <a href="{{ urlFor('home') }}">Home</a></li>

@@ -1,3 +1,5 @@
 vendor/
 composer.lock
 app/config/
+cc-slim-login.sublime-project
+cc-slim-login.sublime-workspace
