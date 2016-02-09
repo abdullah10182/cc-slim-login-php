@@ -14,6 +14,9 @@
 				{% if user.getFullName %}
 					({{ user.getFullName }})
 				{% endif %}
+				{% if user.isAdmin %}
+					<small><strong>admin</strong></small>
+				{% endif %}
 			</div>
 		{% endfor %}
 	{% endif %}
