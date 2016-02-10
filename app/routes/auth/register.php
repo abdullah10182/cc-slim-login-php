@@ -44,7 +44,7 @@ $app->post('/register',$guest(), function() use ($app) {
 		});
 
 		$app->flash('global', 'hI '.$username. ' ,You have been registered');
-		$app->response->redirect($app->urlFor('home'));
+		return $app->response->redirect($app->urlFor('home'));
 	}
 
 	$app->render('auth/register.php', [

@@ -38,6 +38,11 @@ class Validator extends Violin
 	{
 		$user = $this->user->where('email', $value);
 
+		//check if email is not current user's email for updating
+		if ($this->auth && $this->auth->email === $value) {
+			return true;
+		}
+
 		return ! (bool) $user->count(); //cast to bool, return true if count = 1
 	}
 
