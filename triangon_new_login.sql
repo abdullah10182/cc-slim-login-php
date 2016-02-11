@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.1.14
+-- version 4.4.15.1
 -- http://www.phpmyadmin.net
 --
--- Host: 127.0.0.1
--- Generation Time: Jan 30, 2016 at 02:49 PM
--- Server version: 5.6.17
--- PHP Version: 5.5.12
+-- Host: localhost
+-- Generation Time: Feb 11, 2016 at 01:01 PM
+-- Server version: 5.6.28
+-- PHP Version: 5.6.17
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -14,7 +14,7 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
+/*!40101 SET NAMES utf8mb4 */;
 
 --
 -- Database: `triangon_new_login`
@@ -27,7 +27,7 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE IF NOT EXISTS `users` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL,
   `username` varchar(20) NOT NULL,
   `first_name` varchar(50) DEFAULT NULL,
   `last_name` varchar(50) DEFAULT NULL,
@@ -35,21 +35,58 @@ CREATE TABLE IF NOT EXISTS `users` (
   `password` varchar(255) NOT NULL,
   `active` tinyint(1) NOT NULL,
   `active_hash` varchar(255) DEFAULT NULL,
-  `revocer_hash` varchar(255) DEFAULT NULL,
+  `recover_hash` varchar(255) DEFAULT NULL,
   `remember_identifier` varchar(255) DEFAULT NULL,
   `remember_token` varchar(255) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=27 ;
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
 
 --
--- Dumping data for table `users`
+-- Table structure for table `users_permissions`
 --
 
-INSERT INTO `users` (`id`, `username`, `first_name`, `last_name`, `email`, `password`, `active`, `active_hash`, `revocer_hash`, `remember_identifier`, `remember_token`, `created_at`, `updated_at`) VALUES
-(26, 'abdullah', 'tom', 'moreello', 'abdullah10182@gmail.com', '$2y$10$K70KfaatXlGW2GSGXDGUBeA75GJKikP6O.ONT//w2lRqz84Fk.rGq', 0, NULL, NULL, NULL, NULL, '2016-01-29 04:10:13', '2016-01-29 04:10:13');
+CREATE TABLE IF NOT EXISTS `users_permissions` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `is_admin` tinyint(1) NOT NULL,
+  `is_test_role` tinyint(1) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `users_permissions`
+--
+ALTER TABLE `users_permissions`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `users`
+--
+ALTER TABLE `users`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `users_permissions`
+--
+ALTER TABLE `users_permissions`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
